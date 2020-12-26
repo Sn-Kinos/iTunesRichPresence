@@ -65,8 +65,8 @@ namespace iTunesRichPresence_Rewrite {
             ExperimentsButton.Visibility =
                 Settings.Default.ExperimentsEnabled ? Visibility.Visible : Visibility.Collapsed;
 
-            AppNameComboBox.Items.Add("iTunes");
-            AppNameComboBox.Items.Add("Apple Music");
+            AppNameComboBox.Items.Add("ON");
+            AppNameComboBox.Items.Add("OFF");
             try {
                 CreateBridge();
             }
@@ -76,7 +76,7 @@ namespace iTunesRichPresence_Rewrite {
 
 
 
-            AppNameComboBox.SelectedItem = Settings.Default.AppName;
+            AppNameComboBox.SelectedItem = Settings.Default.VOCALOIDMode;
 
             try {
                 var gitHubClient = new GitHubClient(new ProductHeaderValue("iTunesRichPresence"));
@@ -112,7 +112,7 @@ namespace iTunesRichPresence_Rewrite {
 
         private void CreateBridge() {
             _bridge?.Shutdown();
-            _bridge = (string)AppNameComboBox.SelectedItem == "iTunes" ? new DiscordBridge("383816327850360843") : new DiscordBridge("529435150472183819");
+            _bridge = (string)AppNameComboBox.SelectedItem == "ON" ? new DiscordBridge("787380729268273202") : new DiscordBridge("529435150472183819");
         }
 
         private void PopulateToolbox() {
@@ -152,7 +152,7 @@ namespace iTunesRichPresence_Rewrite {
         private void MetroWindow_StateChanged(object sender, EventArgs e) {
             if (WindowState == WindowState.Minimized) {
                 SetVisibility(false);
-                _notifyIcon.ShowBalloonTip(5000, "iTunesRichPresence hidden to tray", "iTunesRichPresence has been minimized to the system tray. Double click the icon to show the window again.", ToolTipIcon.None);
+                _notifyIcon.ShowBalloonTip(5000, "iTunesVocaloidPresence hidden to tray", "iTunesVocaloidPresence has been minimized to the system tray. Double click the icon to show the window again.", ToolTipIcon.None);
             }
             else {
                 SetVisibility(true);
@@ -164,19 +164,19 @@ namespace iTunesRichPresence_Rewrite {
                 Settings.Default.RunOnStartup = true;
                 Settings.Default.Save();
 
-                Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)?.SetValue("iTunesRichPresence", Assembly.GetExecutingAssembly().Location);
+                Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)?.SetValue("iTunesVocaloidPresence", Assembly.GetExecutingAssembly().Location);
 
             }
             else {
                 Settings.Default.RunOnStartup = false;
                 Settings.Default.Save();
 
-                Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)?.DeleteValue("iTunesRichPresence");
+                Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true)?.DeleteValue("iTunesVocaloidPresence");
             }
         }
 
         private async void AboutButton_OnClick(object sender, RoutedEventArgs e) {
-            await this.ShowMessageAsync("",$"iTunesRichPresence v{Assembly.GetExecutingAssembly().GetName().Version}\n\nDeveloped by nint8835 (Riley Flynn)\n\niTunesRichPresence includes portions of a number of open source projects. The licenses of these projects can be found in this program's installation directory.");
+            await this.ShowMessageAsync("",$"iTunesRichPresence v{Assembly.GetExecutingAssembly().GetName().Version}\n\nDeveloped by nint8835 (Riley Flynn)\nSn-Kinos\n\niTunesRichPresence includes portions of a number of open source projects. The licenses of these projects can be found in this program's installation directory.");
         }
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e) {
@@ -207,13 +207,15 @@ namespace iTunesRichPresence_Rewrite {
             _lastFocusedTextBox = e.Source as TextBox;
         }
 
-        private void PlaybackDurationCheckBox_Click(object sender, RoutedEventArgs e) {
+        private void PlaybackCheckBox_Click(object sender, RoutedEventArgs e) {
             Settings.Default.DisplayPlaybackDuration = PlaybackDurationCheckBox.IsChecked ?? true;
+            Settings.Default.DisplayPlaybackRemaining = PlaybackRemainingCheckBox.IsChecked ?? true;
+            PlaybackRemainingCheckBox.IsEnabled = PlaybackDurationCheckBox.IsChecked ?? true;
             Settings.Default.Save();
         }
 
         private async void UpdateButton_OnClick(object sender, RoutedEventArgs e) {
-            var result = await this.ShowMessageAsync("New version available!", "A new version of iTunesRichPresence is available. Would you like to download it now?", MessageDialogStyle.AffirmativeAndNegative);
+            var result = await this.ShowMessageAsync("New version available!", "A new version of iTunesVocaloidPresence is available. Would you like to download it now?", MessageDialogStyle.AffirmativeAndNegative);
             if (result == MessageDialogResult.Affirmative) {
                 Process.Start(_latestRelease.HtmlUrl);
             }
@@ -247,12 +249,21 @@ namespace iTunesRichPresence_Rewrite {
 
         private void Experiment_PlayButton_OnClick(object sender, RoutedEventArgs e) {
             var track = _bridge.ITunes.LibraryPlaylist.Tracks.ItemByName[Experiment_TrackNameTextBox.Text];
-            Globals.Log($"Playing {track.Name} by {track.Artist}");
-            track.Play();
+            if (track != null)
+            {
+                Globals.Log($"Playing {track.Name} by {track.Artist}");
+                track.Play();
+            }
+            else
+            {
+                Globals.Log($"Can't find {Experiment_TrackNameTextBox.Text} on your library");
+            }
+
+            Experiment_TrackNameTextBox.Text = "";
         }
 
         private void AppNameComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            Settings.Default.AppName = (string) AppNameComboBox.SelectedItem;
+            Settings.Default.VOCALOIDMode = (string) AppNameComboBox.SelectedItem;
             CreateBridge();
             Settings.Default.Save();
         }

@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="iTunesRichPresence_Rewrite.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
@@ -26,8 +26,8 @@
     <Setting Name="ExperimentsEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="AppName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">iTunes</Value>
+    <Setting Name="VOCALOIDMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ON</Value>
     </Setting>
     <Setting Name="ClearOnPause" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -35,5 +35,9 @@
     <Setting Name="MinimizeOnStartup" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="DisplayPlaybackRemaining" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
+

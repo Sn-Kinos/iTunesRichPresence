@@ -37,7 +37,7 @@ namespace iTunesRichPresence_Rewrite {
 
             ITunes = new iTunesApp();
 
-            _timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(15)};
+            _timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
             _timer.Tick += Timer_OnTick;
             _timer.Start();
 
@@ -138,8 +138,10 @@ namespace iTunesRichPresence_Rewrite {
                 presence.state = TruncateString(RenderString(Settings.Default.PlayingBottomLine));
                 if (Settings.Default.DisplayPlaybackDuration) {
                     presence.startTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds() - _currentPosition;
-                    presence.endTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds() +
-                                            (ITunes.CurrentTrack.Duration - _currentPosition);
+                    if (Settings.Default.DisplayPlaybackRemaining) {
+                        presence.endTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds() +
+                                                (ITunes.CurrentTrack.Duration - _currentPosition);
+                    }
                 }
             }
 

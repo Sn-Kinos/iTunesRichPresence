@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="iTunesRichPresence" Height="500" Width="450" ResizeMode="CanMinimize" ShowTitleBar="True" StateChanged="MetroWindow_StateChanged" Closing="MetroWindow_Closing" RightWindowCommandsOverlayBehavior="HiddenTitleBar" Loaded="MainWindow_OnLoaded">
+        Title="iTunesVocaloidPresence" Height="500" Width="450" ResizeMode="CanMinimize" ShowTitleBar="True" StateChanged="MetroWindow_StateChanged" Closing="MetroWindow_Closing" RightWindowCommandsOverlayBehavior="HiddenTitleBar" Loaded="MainWindow_OnLoaded">
     <Grid>
         <Label Content="Playing status" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="PlayingTopLineFormatTextBox" HorizontalAlignment="Left" Height="23" Margin="10,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="424" TextChanged="PlayingTopLineFormatTextBox_TextChanged" GotFocus="TextBox_GotFocus"/>
@@ -34,7 +34,8 @@
                 </Grid.Resources>
             </Grid>
         </GroupBox>
-        <CheckBox x:Name="PlaybackDurationCheckBox" Content="Display playback duration" HorizontalAlignment="Left" Margin="12,443,0,0" VerticalAlignment="Top" Click="PlaybackDurationCheckBox_Click"/>
+        <CheckBox x:Name="PlaybackDurationCheckBox" Content="Display playback duration" HorizontalAlignment="Left" Margin="12,443,0,0" VerticalAlignment="Top" Click="PlaybackCheckBox_Click"/>
+        <CheckBox x:Name="PlaybackRemainingCheckBox" Content="Display playback remaining" HorizontalAlignment="Left" Margin="212,443,0,0" VerticalAlignment="Top" Click="PlaybackCheckBox_Click"/>
     </Grid>
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
@@ -74,7 +75,7 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="App name:" Grid.Column="0"/>
+                        <Label Content="VOCALOID Mode:" Grid.Column="0"/>
                         <ComboBox Name="AppNameComboBox" SelectionChanged="AppNameComboBox_OnSelectionChanged" Grid.Column="1"/>
                     </Grid>
                     <CheckBox x:Name="ClearOnPauseCheckBox" Content="Clear status when paused" HorizontalAlignment="Left" Click="ClearOnPauseCheckBox_OnClick" Grid.Row="4" Margin="0,0,0,15"/>
@@ -107,7 +108,6 @@
                         <TextBox Name="Experiment_TrackNameTextBox" Grid.Column="0"/>
                         <Button Name="Experiment_PlayButton" Content="Play" Grid.Column="1" Click="Experiment_PlayButton_OnClick"/>
                     </Grid>
-
                 </Grid>
             </controls:Flyout>
         </controls:FlyoutsControl>
